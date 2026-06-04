@@ -29,10 +29,9 @@
         }
     </script>
 
-    <!-- Estilos Core y Efecto Liquid Glass -->
     <style>
         :root {
-            --accent: #00F0FF; /* Cian Cósmico de Tomyco */
+            --accent: #00F0FF;
         }
 
         body {
@@ -40,7 +39,7 @@
             overflow-x: hidden;
         }
 
-        /* LIQUID GLASS CSS EFFECT */
+        /* LIQUID GLASS */
         .liquid-glass {
             background: rgba(255, 255, 255, 0.01);
             background-blend-mode: luminosity;
@@ -51,7 +50,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .liquid-glass::before {
             content: '';
             position: absolute;
@@ -65,58 +63,60 @@
             pointer-events: none;
         }
 
-        /* Animación sutil de levitación para assets de marca */
+        /* LEVITATE */
         @keyframes levitate {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-10px) rotate(1deg); }
         }
-        .levitate {
-            animation: levitate 6s ease-in-out infinite;
+        .levitate { animation: levitate 6s ease-in-out infinite; }
+
+        /* GRAIN CANVAS — injected via JS, cubre toda la página */
+        #grain-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            pointer-events: none;
+            mix-blend-mode: lighten;
+            opacity: 0.13;
         }
     </style>
 </head>
 <body class="text-cream antialiased select-none selection:bg-[var(--accent)] selection:text-space">
 
-    <!-- TEXTURE OVERLAY (Grano efe Turbulence sobre todo el viewport) -->
-    <div class="fixed inset-0 z-50 pointer-events-none mix-blend-lighten opacity-[0.15]">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-            <filter id="noiseFilter">
-                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
-            </filter>
-            <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
-        </svg>
-    </div>
+    <!-- GRAIN CANVAS — film grain animado sobre toda la landing -->
+    <canvas id="grain-canvas"></canvas>
 
-    <!-- SECCIÓN 1: HERO (Bumper de apertura de fondo) -->
+    <!-- ═══════════════════════════════════════════════
+         SECCIÓN 1: INICIO / HERO
+    ═══════════════════════════════════════════════ -->
     <section id="inicio" class="relative w-full min-h-screen flex flex-col justify-between rounded-b-[32px] overflow-hidden bg-space">
-        <!-- Background Video: Bumper de apertura -->
         <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
-            <!-- Referencia local al bumper indicado -->
             <source src="Bumper/bumper_apertura.mp4" type="video/mp4">
-            <!-- Fallback a URL pública para pruebas si fuera necesario -->
             <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_045634_e1c98c76-1265-4f5c-882a-4276f2080894.mp4" type="video/mp4">
         </video>
         <div class="absolute inset-0 bg-space/70 z-10"></div>
 
-        <!-- Container principal -->
         <div class="relative w-full max-w-[1831px] mx-auto px-6 sm:px-12 lg:px-24 pt-8 z-20 flex-1 flex flex-col justify-between pb-16">
 
-            <!-- Header / Navbar -->
+            <!-- Navbar -->
             <header class="w-full flex items-center justify-between">
                 <div class="font-grotesk text-2xl tracking-wider text-[var(--accent)] uppercase">
                     TOMYCO<span class="text-white">STUDIO</span>
                 </div>
 
-                <nav class="hidden lg:block liquid-glass rounded-[28px] px-[52px] py-[24px]">
-                    <ul class="flex space-x-12">
-                        <li><a href="#inicio" class="font-grotesk text-[13px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Inicio</a></li>
-                        <li><a href="#nosotros" class="font-grotesk text-[13px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Nosotros</a></li>
-                        <li><a href="#experimentos" class="font-grotesk text-[13px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Experimentos</a></li>
-                        <li><a href="#contacto" class="font-grotesk text-[13px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Contacto</a></li>
+                <nav class="hidden lg:block liquid-glass rounded-[28px] px-[40px] py-[20px]">
+                    <ul class="flex space-x-8">
+                        <li><a href="#inicio"    class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Inicio</a></li>
+                        <li><a href="#nosotros"  class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Nosotros</a></li>
+                        <li><a href="#portfolio" class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Portfolio</a></li>
+                        <li><a href="#servicios" class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Nuestros Servicios</a></li>
+                        <li><a href="#clientes"  class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Clientes</a></li>
+                        <li><a href="#contacto"  class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Contacto</a></li>
                     </ul>
                 </nav>
 
-                <!-- Placeholder invisible para balancear flex en desktop -->
                 <div class="w-24 lg:hidden"></div>
             </header>
 
@@ -125,18 +125,15 @@
                 <h1 class="font-grotesk text-[40px] sm:text-[60px] md:text-[75px] lg:text-[90px] uppercase leading-[1.05] md:leading-[1] tracking-tight text-cream">
                     Contenidos antigravedad para hacer despegar tu marca.
                 </h1>
-
-                <!-- Cursive overlay text -->
                 <span class="absolute -right-8 md:-right-16 top-1/2 md:top-2/3 font-condiment text-3xl sm:text-5xl md:text-6xl text-[var(--accent)] mix-blend-exclusion opacity-90 -rotate-1 tracking-normal lowercase">
                     intergalactic creativity
                 </span>
-
                 <p class="mt-8 font-mono text-[12px] md:text-[13px] tracking-widest text-cream/80 max-w-[520px] uppercase leading-relaxed">
                     Somos un estudio argentino de contenidos digitales que levitan. Desarrollos que se elevan hasta las estrellas.
                 </p>
             </div>
 
-            <!-- Social Icons (Desktop: Top Right Stacked) -->
+            <!-- Social Icons Desktop -->
             <div class="hidden lg:flex fixed top-8 right-8 flex-col space-y-4 z-40">
                 <a href="https://instagram.com" target="_blank" class="w-[56px] h-[56px] flex items-center justify-center liquid-glass rounded-[1rem] hover:bg-white/10 transition-all text-cream hover:text-[var(--accent)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
@@ -144,12 +141,13 @@
                 <a href="mailto:hello@tomycostudio.com" class="w-[56px] h-[56px] flex items-center justify-center liquid-glass rounded-[1rem] hover:bg-white/10 transition-all text-cream hover:text-[var(--accent)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                 </a>
-                <a href="https://linkedin.com" target="_blank" class="w-[56px] h-[56px] flex items-center justify-center liquid-glass rounded-[1rem] hover:bg-white/10 transition-all text-cream hover:text-[var(--accent)]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                <!-- Behance -->
+                <a href="https://behance.net" target="_blank" class="w-[56px] h-[56px] flex items-center justify-center liquid-glass rounded-[1rem] hover:bg-white/10 transition-all text-cream hover:text-[var(--accent)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.202.791 1.86 1.81 1.86.723 0 1.234-.379 1.494-.99l2.452.159zm-5.185-4h3.18c-.063-1.079-.712-1.542-1.573-1.542-.875 0-1.46.48-1.607 1.542zM10.307 7.892c.74 0 1.27.135 1.594.404.323.27.484.67.484 1.2 0 .47-.13.865-.39 1.187-.263.323-.61.528-1.044.618.57.127 1.01.38 1.32.756.31.376.465.836.465 1.38 0 .52-.125.987-.375 1.4-.25.414-.598.724-1.044.932-.448.207-.96.31-1.537.31H5V7.892h5.307zM7.18 11.24h2.7c.428 0 .75-.088.966-.266.216-.177.324-.44.324-.79 0-.333-.108-.584-.323-.754-.216-.17-.546-.255-.99-.255H7.18v2.065zm0 3.94h2.95c.47 0 .832-.1 1.086-.3.253-.2.38-.5.38-.9 0-.39-.132-.692-.393-.906-.262-.214-.638-.32-1.13-.32H7.18v2.426z"/></svg>
                 </a>
             </div>
 
-            <!-- Social Icons (Mobile: Centered Bottom) -->
+            <!-- Social Icons Mobile -->
             <div class="flex lg:hidden justify-center space-x-6 mt-12">
                 <a href="https://instagram.com" class="w-[56px] h-[56px] flex items-center justify-center liquid-glass rounded-[1rem] text-cream">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
@@ -157,28 +155,27 @@
                 <a href="mailto:hello@tomycostudio.com" class="w-[56px] h-[56px] flex items-center justify-center liquid-glass rounded-[1rem] text-cream">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                 </a>
-                <a href="https://linkedin.com" class="w-[56px] h-[56px] flex items-center justify-center liquid-glass rounded-[1rem] text-cream">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                <a href="https://behance.net" class="w-[56px] h-[56px] flex items-center justify-center liquid-glass rounded-[1rem] text-cream">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.202.791 1.86 1.81 1.86.723 0 1.234-.379 1.494-.99l2.452.159zm-5.185-4h3.18c-.063-1.079-.712-1.542-1.573-1.542-.875 0-1.46.48-1.607 1.542zM10.307 7.892c.74 0 1.27.135 1.594.404.323.27.484.67.484 1.2 0 .47-.13.865-.39 1.187-.263.323-.61.528-1.044.618.57.127 1.01.38 1.32.756.31.376.465.836.465 1.38 0 .52-.125.987-.375 1.4-.25.414-.598.724-1.044.932-.448.207-.96.31-1.537.31H5V7.892h5.307zM7.18 11.24h2.7c.428 0 .75-.088.966-.266.216-.177.324-.44.324-.79 0-.333-.108-.584-.323-.754-.216-.17-.546-.255-.99-.255H7.18v2.065zm0 3.94h2.95c.47 0 .832-.1 1.086-.3.253-.2.38-.5.38-.9 0-.39-.132-.692-.393-.906-.262-.214-.638-.32-1.13-.32H7.18v2.426z"/></svg>
                 </a>
             </div>
 
         </div>
     </section>
 
-    <!-- SECCIÓN 2: NOSOTROS (La Tripulación Cósmica) -->
+    <!-- ═══════════════════════════════════════════════
+         SECCIÓN 2: NOSOTROS
+    ═══════════════════════════════════════════════ -->
     <section id="nosotros" class="relative w-full min-h-screen flex flex-col justify-between bg-space overflow-hidden">
-        <!-- Background Video / Fondo Alternativo con Estrellas -->
         <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0 opacity-40">
             <source src="Referencias/video_referencia.mp4" type="video/mp4">
             <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_151551_992053d1-3d3e-4b8c-abac-45f22158f411.mp4" type="video/mp4">
         </video>
-        <!-- Elemento de camión animado levitando -->
         <img src="Camioneta/camioneta_animada.png" alt="Camioneta Tomyco" class="absolute right-12 top-1/4 w-64 md:w-96 z-10 levitate pointer-events-none opacity-25 lg:opacity-60">
         <div class="absolute inset-0 bg-gradient-to-b from-space via-space/80 to-space z-10"></div>
 
         <div class="relative w-full max-w-[1831px] mx-auto px-6 sm:px-12 lg:px-24 py-24 z-20 flex-1 flex flex-col justify-between">
 
-            <!-- Top Row -->
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-8 lg:space-y-0 w-full">
                 <div class="relative">
                     <h2 class="font-grotesk text-[32px] sm:text-[50px] lg:text-[60px] uppercase tracking-tight leading-none">
@@ -194,7 +191,6 @@
                 </div>
             </div>
 
-            <!-- Bottom Row -->
             <div class="flex flex-col lg:flex-row justify-between items-end mt-24 gap-12 w-full">
                 <div class="max-w-[640px] space-y-6 font-mono text-[13px] lg:text-[15px] tracking-widest uppercase">
                     <p class="text-cream/90 leading-relaxed">
@@ -217,14 +213,14 @@
         </div>
     </section>
 
-    <!-- SECCIÓN 3: EXPERIMENTOS (Sistemas Reales Grid) -->
-    <section id="experimentos" class="relative w-full bg-space py-24 lg:py-32 overflow-hidden">
-        <!-- Fondo de estrellas integrado detrás de la grilla -->
+    <!-- ═══════════════════════════════════════════════
+         SECCIÓN 3: PORTFOLIO
+    ═══════════════════════════════════════════════ -->
+    <section id="portfolio" class="relative w-full bg-space py-24 lg:py-32 overflow-hidden">
         <div class="absolute inset-0 bg-cover bg-center opacity-10 pointer-events-none" style="background-image: url('Fondo.jpg');"></div>
 
         <div class="relative w-full max-w-[1831px] mx-auto px-6 sm:px-12 lg:px-24 z-20">
 
-            <!-- Header Row -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
                 <div>
                     <h2 class="font-grotesk text-[32px] sm:text-[50px] lg:text-[60px] uppercase tracking-tight leading-none">
@@ -234,8 +230,6 @@
                         NUESTROS <span class="font-condiment text-[var(--accent)] tracking-normal lowercase normal-case">experimentos</span> REALES
                     </h2>
                 </div>
-
-                <!-- Ver Todos Button -->
                 <a href="#contacto" class="group flex items-center space-x-4 border-b-4 border-[var(--accent)] pb-2 transition-all">
                     <span class="font-grotesk text-[32px] md:text-[50px] uppercase text-cream group-hover:text-[var(--accent)] transition-colors leading-none">VER</span>
                     <div class="flex flex-col font-grotesk text-[16px] md:text-[24px] uppercase tracking-tight leading-none text-cream/70">
@@ -245,7 +239,6 @@
                 </a>
             </div>
 
-            <!-- Card Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 <!-- Card 1 -->
@@ -254,12 +247,10 @@
                         <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700">
                             <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_053923_22c0a6a5-313c-474c-85ff-3b50d25e944a.mp4" type="video/mp4">
                         </video>
-                        <!-- Top Absolute Content -->
                         <div class="absolute top-6 left-6 flex flex-col z-20">
                             <span class="font-mono text-xs uppercase tracking-widest text-cream/70">MOTION DESIGN</span>
                             <span class="font-grotesk text-5xl md:text-6xl text-[var(--accent)] mt-2">LEV-01</span>
                         </div>
-                        <!-- Bottom Overlay Bar -->
                         <div class="absolute bottom-4 inset-x-4 liquid-glass rounded-[20px] px-5 py-4 flex items-center justify-between z-20">
                             <div class="flex flex-col">
                                 <span class="font-mono text-[10px] text-cream/60 uppercase">EXPERIMENTO:</span>
@@ -320,20 +311,161 @@
         </div>
     </section>
 
-    <!-- SECCIÓN 4: CTA / CONTACTO (Conectemos en 3, 2, 1...) -->
+    <!-- ═══════════════════════════════════════════════
+         SECCIÓN 4: NUESTROS SERVICIOS
+    ═══════════════════════════════════════════════ -->
+    <section id="servicios" class="relative w-full bg-space py-24 lg:py-32 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-space via-space/90 to-space z-0"></div>
+
+        <div class="relative w-full max-w-[1831px] mx-auto px-6 sm:px-12 lg:px-24 z-20">
+
+            <div class="mb-16">
+                <h2 class="font-grotesk text-[32px] sm:text-[50px] lg:text-[60px] uppercase tracking-tight leading-none">
+                    NUESTROS
+                </h2>
+                <h2 class="font-grotesk text-[32px] sm:text-[50px] lg:text-[60px] uppercase tracking-tight leading-none ml-12 md:ml-24 lg:ml-32">
+                    <span class="font-condiment text-[var(--accent)] tracking-normal lowercase normal-case text-[36px] sm:text-[56px] lg:text-[68px]">servicios</span> INTERGALÁCTICOS
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Servicio 1 -->
+                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
+                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    </div>
+                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">MOTION GRAPHICS</h3>
+                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
+                        Animaciones y gráficos en movimiento que elevan tu comunicación visual al siguiente nivel orbital.
+                    </p>
+                </div>
+
+                <!-- Servicio 2 -->
+                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
+                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                    </div>
+                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">DESARROLLO WEB</h3>
+                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
+                        Sitios y experiencias digitales que desafían la gravedad. UI antigravedad con código de otro planeta.
+                    </p>
+                </div>
+
+                <!-- Servicio 3 -->
+                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
+                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg>
+                    </div>
+                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">DIRECCIÓN DE ARTE</h3>
+                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
+                        Identidad visual y dirección creativa que hace despegar marcas desde la atmósfera argentina.
+                    </p>
+                </div>
+
+                <!-- Servicio 4 -->
+                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
+                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">ILUSTRACIÓN</h3>
+                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
+                        Ilustraciones originales con estética espacial que comunican lo que las palabras no pueden.
+                    </p>
+                </div>
+
+                <!-- Servicio 5 -->
+                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
+                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+                    </div>
+                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">CONTENIDO DIGITAL</h3>
+                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
+                        Contenidos para redes, campañas y plataformas que generan impacto en cada órbita digital.
+                    </p>
+                </div>
+
+                <!-- Servicio 6 -->
+                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
+                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/></svg>
+                    </div>
+                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">BRANDING</h3>
+                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
+                        Construcción de marca desde el núcleo hasta la galaxia. Sistemas visuales coherentes y memorables.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         SECCIÓN 5: CLIENTES
+    ═══════════════════════════════════════════════ -->
+    <section id="clientes" class="relative w-full bg-space py-24 lg:py-32 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-space via-space/90 to-space z-0"></div>
+
+        <div class="relative w-full max-w-[1831px] mx-auto px-6 sm:px-12 lg:px-24 z-20">
+
+            <div class="mb-20">
+                <h2 class="font-grotesk text-[32px] sm:text-[50px] lg:text-[60px] uppercase tracking-tight leading-none">
+                    MARCAS QUE YA
+                </h2>
+                <h2 class="font-grotesk text-[32px] sm:text-[50px] lg:text-[60px] uppercase tracking-tight leading-none ml-12 md:ml-24 lg:ml-32">
+                    <span class="font-condiment text-[var(--accent)] tracking-normal lowercase normal-case text-[36px] sm:text-[56px] lg:text-[68px]">despegaron</span> CON NOSOTROS
+                </h2>
+            </div>
+
+            <!-- Grid de logos placeholder -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Cada celda es un placeholder para el logo del cliente -->
+                <div class="liquid-glass rounded-[20px] h-24 flex items-center justify-center group hover:bg-white/5 transition-all duration-500">
+                    <span class="font-grotesk text-[13px] tracking-widest text-cream/20 uppercase group-hover:text-cream/40 transition-colors">CLIENTE 01</span>
+                </div>
+                <div class="liquid-glass rounded-[20px] h-24 flex items-center justify-center group hover:bg-white/5 transition-all duration-500">
+                    <span class="font-grotesk text-[13px] tracking-widest text-cream/20 uppercase group-hover:text-cream/40 transition-colors">CLIENTE 02</span>
+                </div>
+                <div class="liquid-glass rounded-[20px] h-24 flex items-center justify-center group hover:bg-white/5 transition-all duration-500">
+                    <span class="font-grotesk text-[13px] tracking-widest text-cream/20 uppercase group-hover:text-cream/40 transition-colors">CLIENTE 03</span>
+                </div>
+                <div class="liquid-glass rounded-[20px] h-24 flex items-center justify-center group hover:bg-white/5 transition-all duration-500">
+                    <span class="font-grotesk text-[13px] tracking-widest text-cream/20 uppercase group-hover:text-cream/40 transition-colors">CLIENTE 04</span>
+                </div>
+                <div class="liquid-glass rounded-[20px] h-24 flex items-center justify-center group hover:bg-white/5 transition-all duration-500">
+                    <span class="font-grotesk text-[13px] tracking-widest text-cream/20 uppercase group-hover:text-cream/40 transition-colors">CLIENTE 05</span>
+                </div>
+                <div class="liquid-glass rounded-[20px] h-24 flex items-center justify-center group hover:bg-white/5 transition-all duration-500">
+                    <span class="font-grotesk text-[13px] tracking-widest text-cream/20 uppercase group-hover:text-cream/40 transition-colors">CLIENTE 06</span>
+                </div>
+                <div class="liquid-glass rounded-[20px] h-24 flex items-center justify-center group hover:bg-white/5 transition-all duration-500">
+                    <span class="font-grotesk text-[13px] tracking-widest text-cream/20 uppercase group-hover:text-cream/40 transition-colors">CLIENTE 07</span>
+                </div>
+                <div class="liquid-glass rounded-[20px] h-24 flex items-center justify-center group hover:bg-white/5 transition-all duration-500">
+                    <span class="font-grotesk text-[13px] tracking-widest text-cream/20 uppercase group-hover:text-cream/40 transition-colors">CLIENTE 08</span>
+                </div>
+            </div>
+
+            <p class="mt-12 font-mono text-[11px] tracking-widest text-cream/30 uppercase text-center">
+                — LOGOS DE CLIENTES · REEMPLAZAR CON IMÁGENES REALES —
+            </p>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         SECCIÓN 6: CONTACTO
+    ═══════════════════════════════════════════════ -->
     <section id="contacto" class="relative w-full bg-space pb-12 overflow-hidden">
 
-        <!-- Video Block Aspect Ratio ~16/8 -->
         <div class="relative w-full aspect-[16/10] md:aspect-[16/8] rounded-[32px] overflow-hidden max-w-[1831px] mx-auto">
             <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
                 <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_055729_72d66327-b59e-4ae9-bb70-de6ccb5ecdb0.mp4" type="video/mp4">
             </video>
             <div class="absolute inset-0 bg-space/80 z-10"></div>
 
-            <!-- Cohetes animados en PNG flotando en el CTA -->
             <img src="Cohetes/cohetes_animados.png" alt="Cohetes Tomyco" class="absolute left-12 top-1/3 w-48 md:w-80 z-20 levitate opacity-30 pointer-events-none">
 
-            <!-- Content Container Over Video -->
             <div class="absolute inset-0 z-20 flex flex-col justify-center items-end text-right px-8 sm:px-16 lg:pr-[18%] lg:pl-[15%]">
                 <div class="relative">
                     <span class="absolute -top-12 left-0 font-condiment text-[var(--accent)] text-4xl md:text-6xl mix-blend-exclusion -rotate-3">
@@ -350,11 +482,11 @@
                 </p>
                 <div class="mt-6 font-mono text-sm md:text-lg text-[var(--accent)] tracking-wider">
                     <a href="mailto:trabajo@tomycostudio.com" class="block hover:underline">TRABAJO@TOMYCOSTUDIO.COM</a>
-                    <a href="tel:+5493493438196" class="block mt-2 text-cream/80 hover:underline">(+549) 3493 438196</a>
+                    <a href="tel:+5491124092081" class="block mt-2 text-cream/80 hover:underline">(+54 9) 11 2409 2081</a>
                 </div>
             </div>
 
-            <!-- Social Icons Absolute Bottom Left Container -->
+            <!-- Social Icons Contacto -->
             <div class="absolute left-[8%] bottom-[12%] md:bottom-[16%] z-30">
                 <div class="liquid-glass rounded-[1rem] flex flex-col divide-y divide-white/10 w-[45px] sm:w-[56px]">
                     <a href="https://instagram.com" target="_blank" class="p-3 sm:p-4 text-cream hover:text-[var(--accent)] transition-colors flex justify-center">
@@ -363,8 +495,9 @@
                     <a href="mailto:hello@tomycostudio.com" class="p-3 sm:p-4 text-cream hover:text-[var(--accent)] transition-colors flex justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                     </a>
-                    <a href="https://linkedin.com" target="_blank" class="p-3 sm:p-4 text-cream hover:text-[var(--accent)] transition-colors flex justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                    <!-- Behance -->
+                    <a href="https://behance.net" target="_blank" class="p-3 sm:p-4 text-cream hover:text-[var(--accent)] transition-colors flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.202.791 1.86 1.81 1.86.723 0 1.234-.379 1.494-.99l2.452.159zm-5.185-4h3.18c-.063-1.079-.712-1.542-1.573-1.542-.875 0-1.46.48-1.607 1.542zM10.307 7.892c.74 0 1.27.135 1.594.404.323.27.484.67.484 1.2 0 .47-.13.865-.39 1.187-.263.323-.61.528-1.044.618.57.127 1.01.38 1.32.756.31.376.465.836.465 1.38 0 .52-.125.987-.375 1.4-.25.414-.598.724-1.044.932-.448.207-.96.31-1.537.31H5V7.892h5.307zM7.18 11.24h2.7c.428 0 .75-.088.966-.266.216-.177.324-.44.324-.79 0-.333-.108-.584-.323-.754-.216-.17-.546-.255-.99-.255H7.18v2.065zm0 3.94h2.95c.47 0 .832-.1 1.086-.3.253-.2.38-.5.38-.9 0-.39-.132-.692-.393-.906-.262-.214-.638-.32-1.13-.32H7.18v2.426z"/></svg>
                     </a>
                 </div>
             </div>
@@ -372,14 +505,49 @@
 
         <!-- FOOTER -->
         <footer class="w-full max-w-[1831px] mx-auto px-6 sm:px-12 lg:px-24 mt-12 flex justify-between items-center font-grotesk uppercase text-[12px] tracking-widest text-cream/60">
-            <div>
-                © 2026 TOMYCO STUDIO. ALL RIGHTS RESERVED.
-            </div>
-            <div class="font-condiment text-[var(--accent)] text-xl tracking-normal lowercase normal-case">
-                @tomycostudio
-            </div>
+            <div>© 2026 TOMYCO STUDIO. ALL RIGHTS RESERVED.</div>
+            <div class="font-condiment text-[var(--accent)] text-xl tracking-normal lowercase normal-case">@tomycostudio</div>
         </footer>
     </section>
+
+    <!-- ═══════════════════════════════════════════════
+         GRAIN CANVAS — Film grain animado
+    ═══════════════════════════════════════════════ -->
+    <script>
+    (function() {
+        var canvas = document.getElementById('grain-canvas');
+        var ctx = canvas.getContext('2d');
+        var frame = 0;
+
+        function resize() {
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function drawGrain() {
+            // Actualiza cada 2 frames para equilibrar calidad y performance
+            frame++;
+            if (frame % 2 === 0) {
+                var w = canvas.width, h = canvas.height;
+                var img = ctx.createImageData(w, h);
+                var d   = img.data;
+                for (var i = 0; i < d.length; i += 4) {
+                    var v = (Math.random() * 255) | 0;
+                    d[i]     = v;
+                    d[i + 1] = v;
+                    d[i + 2] = v;
+                    d[i + 3] = 255;
+                }
+                ctx.putImageData(img, 0, 0);
+            }
+            requestAnimationFrame(drawGrain);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        drawGrain();
+    })();
+    </script>
 
 </body>
 </html>
