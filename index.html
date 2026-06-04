@@ -70,13 +70,17 @@
         }
         .levitate { animation: levitate 6s ease-in-out infinite; }
 
-        /* NAVBAR FIJA */
+        /* NAVBAR — scroll-triggered, aparece al bajar del hero */
         #main-nav {
             position: fixed;
-            top: 24px;
+            top: -100px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 200;
+            transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #main-nav.nav-visible {
+            top: 20px;
         }
 
         /* GRAIN CANVAS — injected via JS, cubre toda la página */
@@ -141,16 +145,13 @@
         }
         #reel-close:hover { color: #00F0FF; }
 
-        /* Play hint en el hero */
+        /* Play hint — inline en el contenido del hero */
         #play-hint {
-            position: absolute;
-            inset: 0;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            z-index: 15;
+            gap: 16px;
             cursor: pointer;
-            transition: opacity 0.3s;
+            margin-top: 36px;
         }
         #play-hint:hover .play-ring { transform: scale(1.08); }
         .play-ring {
@@ -186,6 +187,17 @@
         </div>
     </div>
 
+    <!-- Navbar — fuera de cualquier sección, scroll-triggered -->
+    <nav id="main-nav" class="hidden lg:block liquid-glass rounded-[28px] px-[40px] py-[20px]">
+        <ul class="flex space-x-8">
+            <li><a href="#inicio"    class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Inicio</a></li>
+            <li><a href="#nosotros"  class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Nosotros</a></li>
+            <li><a href="#portfolio" class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Portfolio</a></li>
+            <li><a href="#servicios" class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Nuestros Servicios</a></li>
+            <li><a href="#clientes"  class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Clientes</a></li>
+        </ul>
+    </nav>
+
     <!-- ═══════════════════════════════════════════════
          SECCIÓN 1: INICIO / HERO
     ═══════════════════════════════════════════════ -->
@@ -195,16 +207,6 @@
         </video>
         <div class="absolute inset-0 bg-space/70 z-10"></div>
 
-        <!-- Botón play centrado sobre el bumper -->
-        <div id="play-hint" onclick="openReel()">
-            <div class="flex flex-col items-center gap-3">
-                <div class="play-ring">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="#00F0FF" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                </div>
-                <span class="font-grotesk text-[11px] tracking-[0.25em] text-[var(--accent)] uppercase opacity-80">Ver Reel</span>
-            </div>
-        </div>
-
         <div class="relative w-full max-w-[1831px] mx-auto px-6 sm:px-12 lg:px-24 pt-8 z-20 flex-1 flex flex-col justify-between pb-16">
 
             <!-- Logo animado (canvas) — top left fijo -->
@@ -212,22 +214,11 @@
                 <canvas id="logo-canvas" width="180" height="60" style="display:block;"></canvas>
             </div>
 
-            <!-- Navbar fija centrada -->
-            <nav id="main-nav" class="hidden lg:block liquid-glass rounded-[28px] px-[40px] py-[20px]">
-                <ul class="flex space-x-8">
-                    <li><a href="#inicio"    class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Inicio</a></li>
-                    <li><a href="#nosotros"  class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Nosotros</a></li>
-                    <li><a href="#portfolio" class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Portfolio</a></li>
-                    <li><a href="#servicios" class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Nuestros Servicios</a></li>
-                    <li><a href="#clientes"  class="font-grotesk text-[12px] tracking-widest text-cream hover:text-[var(--accent)] transition-colors uppercase">Clientes</a></li>
-                </ul>
-            </nav>
-
-            <!-- Spacer header invisible para que el contenido no quede tapado por la nav fija -->
+            <!-- Spacer para no tapar logo -->
             <div class="h-20"></div>
 
             <!-- Hero Content -->
-            <div class="relative mt-auto pt-32 lg:ml-32 max-w-[920px]">
+            <div class="relative mt-auto pt-16 lg:ml-32 max-w-[920px]">
                 <h1 class="font-grotesk text-[40px] sm:text-[60px] md:text-[75px] lg:text-[90px] uppercase leading-[1.05] md:leading-[1] tracking-tight text-cream">
                     Contenidos antigravedad para hacer despegar tu marca.
                 </h1>
@@ -237,6 +228,14 @@
                 <p class="mt-8 font-mono text-[12px] md:text-[13px] tracking-widest text-cream/80 max-w-[520px] uppercase leading-relaxed">
                     Somos un estudio argentino de contenidos digitales que levitan. Desarrollos que se elevan hasta las estrellas.
                 </p>
+
+                <!-- Botón Ver Reel — debajo del subtítulo -->
+                <div id="play-hint" onclick="openReel()">
+                    <div class="play-ring">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#00F0FF" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    </div>
+                    <span class="font-grotesk text-[11px] tracking-[0.25em] text-[var(--accent)] uppercase">Ver Reel</span>
+                </div>
             </div>
 
             <!-- Social Icons Desktop -->
@@ -276,8 +275,10 @@
         <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0 opacity-40">
             <source src="Referencias/video_referencia.mp4" type="video/mp4">
         </video>
-        <!-- Camioneta animada vía canvas -->
-        <canvas id="camioneta-canvas" class="absolute right-12 top-1/4 w-64 md:w-96 z-10 levitate pointer-events-none opacity-25 lg:opacity-60" style="height:auto;"></canvas>
+        <!-- Cohetes levitando en Nosotros -->
+        <img src="Cohetes/Cohete_01.png" alt="Cohete" class="absolute right-8 top-1/4 w-24 md:w-40 z-10 levitate pointer-events-none opacity-30 lg:opacity-55" style="animation-delay:0s;">
+        <img src="Cohetes/Cohete_02.png" alt="Cohete" class="absolute right-40 md:right-64 top-1/2 w-16 md:w-28 z-10 levitate pointer-events-none opacity-20 lg:opacity-40" style="animation-delay:1.8s;">
+        <img src="Cohetes/Cohete_03.png" alt="Cohete" class="absolute right-16 bottom-1/4 w-10 md:w-20 z-10 levitate pointer-events-none opacity-15 lg:opacity-30" style="animation-delay:3.5s;">
         <div class="absolute inset-0 bg-gradient-to-b from-space via-space/80 to-space z-10"></div>
 
         <div class="relative w-full max-w-[1831px] mx-auto px-6 sm:px-12 lg:px-24 py-24 z-20 flex-1 flex flex-col justify-between">
@@ -570,10 +571,8 @@
             </video>
             <div class="absolute inset-0 bg-space/80 z-10"></div>
 
-            <!-- Cohetes reales levitando -->
-            <img src="Cohetes/Cohete_01.png" alt="Cohete" class="absolute left-8 top-1/4 w-24 md:w-40 z-20 levitate opacity-40 pointer-events-none" style="animation-delay:0s;">
-            <img src="Cohetes/Cohete_02.png" alt="Cohete" class="absolute left-32 md:left-48 top-1/3 w-16 md:w-28 z-20 levitate opacity-30 pointer-events-none" style="animation-delay:1.5s;">
-            <img src="Cohetes/Cohete_03.png" alt="Cohete" class="absolute left-4 bottom-1/4 w-12 md:w-20 z-20 levitate opacity-20 pointer-events-none" style="animation-delay:3s;">
+            <!-- Camioneta animada vía canvas en Contacto -->
+            <canvas id="camioneta-canvas" class="absolute left-8 top-1/3 w-48 md:w-72 z-20 levitate pointer-events-none opacity-35" style="height:auto;"></canvas>
 
             <div class="absolute inset-0 z-20 flex flex-col justify-center items-end text-right px-8 sm:px-16 lg:pr-[18%] lg:pl-[15%]">
                 <div class="relative">
@@ -725,6 +724,22 @@
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeReelBtn();
     });
+
+    // Nav scroll-triggered: aparece al salir del hero
+    (function() {
+        var nav    = document.getElementById('main-nav');
+        var hero   = document.getElementById('inicio');
+        if (!nav || !hero) return;
+        function onScroll() {
+            var heroBottom = hero.getBoundingClientRect().bottom;
+            if (heroBottom < 80) {
+                nav.classList.add('nav-visible');
+            } else {
+                nav.classList.remove('nav-visible');
+            }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+    })();
     </script>
 
     <!-- ═══════════════════════════════════════════════
