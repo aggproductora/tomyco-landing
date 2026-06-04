@@ -625,7 +625,7 @@
             }
         }
 
-        /* ── LOGO EN HEADER ── */
+        /* ── LOGO EN HEADER — una sola vez, queda estático en el último frame ── */
         function startHeaderLogo() {
             var canvas = document.getElementById('logo-canvas');
             if (!canvas) return;
@@ -633,10 +633,14 @@
             var ratio = frames[0].naturalHeight / frames[0].naturalWidth;
             canvas.height = Math.round(canvas.width * ratio);
             var frame = 0;
-            setInterval(function() {
+            var id = setInterval(function() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(frames[frame], 0, 0, canvas.width, canvas.height);
-                frame = (frame + 1) % TOTAL;
+                if (frame < TOTAL - 1) {
+                    frame++;
+                } else {
+                    clearInterval(id); // llegó al último frame, se detiene
+                }
             }, 1000 / FPS);
         }
 
