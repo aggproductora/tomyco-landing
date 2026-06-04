@@ -90,12 +90,101 @@
             mix-blend-mode: lighten;
             opacity: 0.13;
         }
+
+        /* REEL MODAL */
+        #reel-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(1, 8, 40, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        #reel-modal.open {
+            display: flex;
+            animation: fadeInModal 0.35s ease;
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.96); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        #reel-modal .modal-inner {
+            position: relative;
+            width: min(92vw, 1200px);
+            aspect-ratio: 16/9;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 0 80px rgba(0,240,255,0.15), 0 0 0 1px rgba(255,255,255,0.08);
+            cursor: default;
+        }
+        #reel-modal iframe {
+            width: 100%; height: 100%;
+            border: none;
+            display: block;
+        }
+        #reel-close {
+            position: absolute;
+            top: -48px;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: rgba(239,244,255,0.7);
+            transition: color 0.2s;
+        }
+        #reel-close:hover { color: #00F0FF; }
+
+        /* Play hint en el hero */
+        #play-hint {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 15;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        #play-hint:hover .play-ring { transform: scale(1.08); }
+        .play-ring {
+            width: 88px; height: 88px;
+            border-radius: 50%;
+            background: rgba(0,240,255,0.12);
+            border: 2px solid rgba(0,240,255,0.5);
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s, background 0.3s;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 40px rgba(0,240,255,0.2);
+        }
+        #play-hint:hover .play-ring {
+            background: rgba(0,240,255,0.22);
+            box-shadow: 0 0 60px rgba(0,240,255,0.35);
+        }
     </style>
 </head>
 <body class="text-cream antialiased select-none selection:bg-[var(--accent)] selection:text-space">
 
     <!-- GRAIN CANVAS — film grain animado sobre toda la landing -->
     <canvas id="grain-canvas"></canvas>
+
+    <!-- ═══════════════════════════════════════════════
+         REEL MODAL (YouTube lightbox)
+    ═══════════════════════════════════════════════ -->
+    <div id="reel-modal" onclick="closeReel(event)">
+        <div class="modal-inner">
+            <div id="reel-close" onclick="closeReelBtn()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+            <iframe id="reel-iframe" src="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
 
     <!-- ═══════════════════════════════════════════════
          SECCIÓN 1: INICIO / HERO
@@ -105,6 +194,16 @@
             <source src="Bumper/bumper_apertura.mp4" type="video/mp4">
         </video>
         <div class="absolute inset-0 bg-space/70 z-10"></div>
+
+        <!-- Botón play centrado sobre el bumper -->
+        <div id="play-hint" onclick="openReel()">
+            <div class="flex flex-col items-center gap-3">
+                <div class="play-ring">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="#00F0FF" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                <span class="font-grotesk text-[11px] tracking-[0.25em] text-[var(--accent)] uppercase opacity-80">Ver Reel</span>
+            </div>
+        </div>
 
         <div class="relative w-full max-w-[1831px] mx-auto px-6 sm:px-12 lg:px-24 pt-8 z-20 flex-1 flex flex-col justify-between pb-16">
 
@@ -591,6 +690,41 @@
             }, 1000 / FPS);
         }
     })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════
+         REEL MODAL — Script
+    ═══════════════════════════════════════════════ -->
+    <script>
+    var REEL_URL = 'https://www.youtube.com/embed/aQzOmdpfISo?autoplay=1&rel=0&modestbranding=1';
+
+    function openReel() {
+        var modal  = document.getElementById('reel-modal');
+        var iframe = document.getElementById('reel-iframe');
+        iframe.src = REEL_URL;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeReelBtn() {
+        var modal  = document.getElementById('reel-modal');
+        var iframe = document.getElementById('reel-iframe');
+        modal.classList.remove('open');
+        iframe.src = '';
+        document.body.style.overflow = '';
+    }
+
+    function closeReel(e) {
+        // Solo cierra si se hace click en el fondo oscuro, no en el video
+        if (e.target === document.getElementById('reel-modal')) {
+            closeReelBtn();
+        }
+    }
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeReelBtn();
+    });
     </script>
 
     <!-- ═══════════════════════════════════════════════
