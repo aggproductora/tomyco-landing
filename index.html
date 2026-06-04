@@ -601,21 +601,28 @@
             canvas.height = Math.round(canvas.width * ratio);
 
             var frame = 0;
+            var HOLD_MS = 600; // tiempo estático con el logo completo antes del fade
+
             intervalId = setInterval(function() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(frames[frame], 0, 0, canvas.width, canvas.height);
-                frame = (frame + 1) % TOTAL;
+
+                if (frame < TOTAL - 1) {
+                    frame++;
+                } else {
+                    // Llegó al último frame: detiene el loop y espera HOLD_MS
+                    clearInterval(intervalId);
+                    setTimeout(fadeOut, HOLD_MS);
+                }
             }, 1000 / FPS);
 
-            // Después de 2.8s fade out y arranca la landing
-            setTimeout(function() {
-                clearInterval(intervalId);
+            function fadeOut() {
                 screen.classList.add('fade-out');
                 setTimeout(function() {
                     screen.style.display = 'none';
                     revealLanding();
                 }, 900);
-            }, 2800);
+            }
         }
 
         /* ── LOGO EN HEADER ── */
