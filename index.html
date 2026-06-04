@@ -525,16 +525,16 @@
     <!-- ═══════════════════════════════════════════════
          SECCIÓN 6: CONTACTO
     ═══════════════════════════════════════════════ -->
-    <section id="contacto" class="relative w-full bg-space pb-12 overflow-hidden">
+    <section id="contacto" class="relative w-full bg-space pb-12">
+
+        <!-- Camioneta animada — fuera del overflow-hidden, relativa a la sección -->
+        <canvas id="camioneta-canvas" class="absolute left-0 bottom-12 w-72 md:w-[520px] z-30 levitate pointer-events-none opacity-50" style="height:auto;"></canvas>
 
         <div class="relative w-full aspect-[16/10] md:aspect-[16/8] rounded-[32px] overflow-hidden max-w-[1831px] mx-auto">
             <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
                 <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_045634_e1c98c76-1265-4f5c-882a-4276f2080894.mp4" type="video/mp4">
             </video>
             <div class="absolute inset-0 bg-space/80 z-10"></div>
-
-            <!-- Camioneta animada vía canvas en Contacto — más grande y abajo -->
-            <canvas id="camioneta-canvas" class="absolute left-0 bottom-0 w-72 md:w-[500px] z-20 levitate pointer-events-none opacity-50" style="height:auto;"></canvas>
 
             <div class="absolute inset-0 z-20 flex flex-col justify-center items-end text-right px-8 sm:px-16 lg:pr-[18%] lg:pl-[15%]">
                 <div class="relative">
