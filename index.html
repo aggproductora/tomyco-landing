@@ -70,10 +70,33 @@
         }
         .levitate { animation: levitate 6s ease-in-out infinite; }
 
-        /* NAVBAR — fluye con la página dentro del hero */
-        #main-nav {
-            /* posición normal en el flujo */
+        /* INTRO SCREEN */
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        #intro-screen.fade-out { opacity: 0; pointer-events: none; }
+        #intro-logo { width: min(340px, 70vw); }
+
+        /* HERO ENTRY ANIMATIONS */
+        .hero-animate {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .hero-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* NAVBAR — fluye con la página dentro del hero */
+        #main-nav { /* posición normal en el flujo */ }
 
         /* GRAIN CANVAS — injected via JS, cubre toda la página */
         #grain-canvas {
@@ -164,6 +187,11 @@
 </head>
 <body class="text-cream antialiased select-none selection:bg-[var(--accent)] selection:text-space">
 
+    <!-- INTRO SCREEN — logo animado sobre negro -->
+    <div id="intro-screen">
+        <canvas id="intro-logo"></canvas>
+    </div>
+
     <!-- GRAIN CANVAS — film grain animado sobre toda la landing -->
     <canvas id="grain-canvas"></canvas>
 
@@ -210,18 +238,18 @@
 
             <!-- Hero Content -->
             <div class="relative mt-auto pt-16 lg:ml-32 max-w-[920px]">
-                <h1 class="font-grotesk text-[40px] sm:text-[60px] md:text-[75px] lg:text-[90px] uppercase leading-[1.05] md:leading-[1] tracking-tight text-cream">
+                <h1 class="hero-animate font-grotesk text-[40px] sm:text-[60px] md:text-[75px] lg:text-[90px] uppercase leading-[1.05] md:leading-[1] tracking-tight text-cream" style="transition-delay:0.1s">
                     Contenidos antigravedad para hacer despegar tu marca.
                 </h1>
-                <span class="absolute -right-8 md:-right-16 top-1/2 md:top-2/3 font-condiment text-3xl sm:text-5xl md:text-6xl text-[var(--accent)] mix-blend-exclusion opacity-90 -rotate-1 tracking-normal lowercase">
+                <span class="hero-animate absolute -right-8 md:-right-16 top-1/2 md:top-2/3 font-condiment text-3xl sm:text-5xl md:text-6xl text-[var(--accent)] mix-blend-exclusion opacity-90 -rotate-1 tracking-normal lowercase" style="transition-delay:0.35s">
                     intergalactic creativity
                 </span>
-                <p class="mt-8 font-mono text-[12px] md:text-[13px] tracking-widest text-cream/80 max-w-[520px] uppercase leading-relaxed">
+                <p class="hero-animate mt-8 font-mono text-[12px] md:text-[13px] tracking-widest text-cream/80 max-w-[520px] uppercase leading-relaxed" style="transition-delay:0.55s">
                     Somos un estudio argentino de contenidos digitales que levitan. Desarrollos que se elevan hasta las estrellas.
                 </p>
 
                 <!-- Botón Ver Reel — debajo del subtítulo -->
-                <div id="play-hint" onclick="openReel()">
+                <div id="play-hint" class="hero-animate" onclick="openReel()" style="transition-delay:0.75s">
                     <div class="play-ring">
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#00F0FF" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                     </div>
@@ -426,74 +454,16 @@
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                <!-- Servicio 1 -->
-                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
-                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                    </div>
-                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">MOTION GRAPHICS</h3>
-                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
-                        Animaciones y gráficos en movimiento que elevan tu comunicación visual al siguiente nivel orbital.
-                    </p>
-                </div>
-
-                <!-- Servicio 2 -->
-                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
-                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                    </div>
-                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">DESARROLLO WEB</h3>
-                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
-                        Sitios y experiencias digitales que desafían la gravedad. UI antigravedad con código de otro planeta.
-                    </p>
-                </div>
-
-                <!-- Servicio 3 -->
-                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
-                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg>
-                    </div>
-                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">DIRECCIÓN DE ARTE</h3>
-                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
-                        Identidad visual y dirección creativa que hace despegar marcas desde la atmósfera argentina.
-                    </p>
-                </div>
-
-                <!-- Servicio 4 -->
-                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
-                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                    </div>
-                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">ILUSTRACIÓN</h3>
-                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
-                        Ilustraciones originales con estética espacial que comunican lo que las palabras no pueden.
-                    </p>
-                </div>
-
-                <!-- Servicio 5 -->
-                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
-                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
-                    </div>
-                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">CONTENIDO DIGITAL</h3>
-                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
-                        Contenidos para redes, campañas y plataformas que generan impacto en cada órbita digital.
-                    </p>
-                </div>
-
-                <!-- Servicio 6 -->
-                <div class="liquid-glass rounded-[28px] p-8 group hover:bg-white/5 transition-all duration-500">
-                    <div class="w-12 h-12 mb-6 text-[var(--accent)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/></svg>
-                    </div>
-                    <h3 class="font-grotesk text-[22px] uppercase tracking-tight text-cream mb-3">BRANDING</h3>
-                    <p class="font-mono text-[12px] tracking-wider text-cream/60 uppercase leading-relaxed">
-                        Construcción de marca desde el núcleo hasta la galaxia. Sistemas visuales coherentes y memorables.
-                    </p>
-                </div>
-
+            <!-- Pills de servicios -->
+            <div class="flex flex-wrap gap-3 md:gap-4">
+                <span class="font-grotesk text-[13px] md:text-[15px] tracking-widest uppercase px-6 py-3 rounded-full border border-cream/20 text-cream/70 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 cursor-default">Motion Design</span>
+                <span class="font-grotesk text-[13px] md:text-[15px] tracking-widest uppercase px-6 py-3 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)]/10 transition-all duration-300 cursor-default">Animación Gráfica</span>
+                <span class="font-grotesk text-[13px] md:text-[15px] tracking-widest uppercase px-6 py-3 rounded-full border border-cream/20 text-cream/70 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 cursor-default">Desarrollo Web</span>
+                <span class="font-grotesk text-[13px] md:text-[15px] tracking-widest uppercase px-6 py-3 rounded-full border border-cream/20 text-cream/70 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 cursor-default">Dirección de Arte</span>
+                <span class="font-grotesk text-[13px] md:text-[15px] tracking-widest uppercase px-6 py-3 rounded-full border border-cream/20 text-cream/70 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 cursor-default">Ilustración</span>
+                <span class="font-grotesk text-[13px] md:text-[15px] tracking-widest uppercase px-6 py-3 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)]/10 transition-all duration-300 cursor-default">Branding</span>
+                <span class="font-grotesk text-[13px] md:text-[15px] tracking-widest uppercase px-6 py-3 rounded-full border border-cream/20 text-cream/70 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 cursor-default">Contenido Digital</span>
+                <span class="font-grotesk text-[13px] md:text-[15px] tracking-widest uppercase px-6 py-3 rounded-full border border-cream/20 text-cream/70 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 cursor-default">Identidad Visual</span>
             </div>
         </div>
     </section>
@@ -562,8 +532,8 @@
             </video>
             <div class="absolute inset-0 bg-space/80 z-10"></div>
 
-            <!-- Camioneta animada vía canvas en Contacto -->
-            <canvas id="camioneta-canvas" class="absolute left-8 top-1/3 w-48 md:w-72 z-20 levitate pointer-events-none opacity-35" style="height:auto;"></canvas>
+            <!-- Camioneta animada vía canvas en Contacto — más grande y abajo -->
+            <canvas id="camioneta-canvas" class="absolute left-0 bottom-0 w-72 md:w-[500px] z-20 levitate pointer-events-none opacity-50" style="height:auto;"></canvas>
 
             <div class="absolute inset-0 z-20 flex flex-col justify-center items-end text-right px-8 sm:px-16 lg:pr-[18%] lg:pl-[15%]">
                 <div class="relative">
@@ -595,37 +565,80 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════
-         LOGO ANIMADO — Secuencia de 52 frames PNG
+         INTRO + LOGO ANIMADO — Secuencia 52 frames PNG
     ═══════════════════════════════════════════════ -->
     <script>
     (function() {
-        var TOTAL = 52;
-        var FPS   = 24;
-        var frames = [];
-        var loaded = 0;
-        var canvas = document.getElementById('logo-canvas');
-        var ctx    = canvas.getContext('2d');
+        var TOTAL   = 52;
+        var FPS     = 24;
+        var frames  = [];
+        var loaded  = 0;
         var current = 0;
+        var intervalId = null;
 
+        // Precargar todos los frames
         for (var i = 0; i < TOTAL; i++) {
             var img = new Image();
             img.src = 'Logo/Logo tomyco_' + String(i).padStart(5,'0') + '.png';
-            img.onload = function() {
+            img.onload = (function() {
                 loaded++;
-                if (loaded === TOTAL) startLogo();
-            };
+                if (loaded === TOTAL) onAllLoaded();
+            });
             frames.push(img);
         }
 
-        function startLogo() {
-            // Ajusta canvas al aspect ratio del primer frame
+        function onAllLoaded() {
+            startIntro();
+        }
+
+        /* ── INTRO SCREEN ── */
+        function startIntro() {
+            var screen  = document.getElementById('intro-screen');
+            var canvas  = document.getElementById('intro-logo');
+            var ctx     = canvas.getContext('2d');
+            var ratio   = frames[0].naturalHeight / frames[0].naturalWidth;
+            canvas.width  = Math.min(340, window.innerWidth * 0.7);
+            canvas.height = Math.round(canvas.width * ratio);
+
+            var frame = 0;
+            intervalId = setInterval(function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(frames[frame], 0, 0, canvas.width, canvas.height);
+                frame = (frame + 1) % TOTAL;
+            }, 1000 / FPS);
+
+            // Después de 2.8s fade out y arranca la landing
+            setTimeout(function() {
+                clearInterval(intervalId);
+                screen.classList.add('fade-out');
+                setTimeout(function() {
+                    screen.style.display = 'none';
+                    revealLanding();
+                }, 900);
+            }, 2800);
+        }
+
+        /* ── LOGO EN HEADER ── */
+        function startHeaderLogo() {
+            var canvas = document.getElementById('logo-canvas');
+            if (!canvas) return;
+            var ctx   = canvas.getContext('2d');
             var ratio = frames[0].naturalHeight / frames[0].naturalWidth;
             canvas.height = Math.round(canvas.width * ratio);
+            var frame = 0;
             setInterval(function() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(frames[current], 0, 0, canvas.width, canvas.height);
-                current = (current + 1) % TOTAL;
+                ctx.drawImage(frames[frame], 0, 0, canvas.width, canvas.height);
+                frame = (frame + 1) % TOTAL;
             }, 1000 / FPS);
+        }
+
+        /* ── REVEAL LANDING ── */
+        function revealLanding() {
+            startHeaderLogo();
+            // Animá los elementos del hero uno por uno
+            var els = document.querySelectorAll('.hero-animate');
+            els.forEach(function(el) { el.classList.add('visible'); });
         }
     })();
     </script>
